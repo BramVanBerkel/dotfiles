@@ -1,0 +1,29 @@
+keypress_delay_ms: 10
+
+# `modmap` section
+# For key-to-key remapping (no combinations). Remapping a key to a modifier key (e.g. CapsLock to Control_L) is supported only in `modmap` section
+modmap:
+  - name: Mouse keys for RuneLite
+    application:
+      only: net-runelite-client-RuneLite
+    remap:
+      BTN_SIDE: Esc
+      BTN_EXTRA: Space
+  - name: Make ⌘ act as Ctrl
+    remap:
+      LeftCtrl: LeftMeta
+      LeftMeta: LeftCtrl
+      RightCtrl: RightMeta
+      RightMeta: RightCtrl
+# `keymap` section
+# For remapping a sequence of key combinations to another sequence of key combinations
+keymap:
+  - name: Make ⌘← and ⌘→ work as Home and End (with Shift for selection)
+    remap:
+      Ctrl-Left: Home
+      Ctrl-Right: End
+      Shift-Ctrl-Left: Shift-Home
+      Shift-Ctrl-Right: Shift-End
+  - name: Delete word
+    remap:
+      Alt-Backspace: Ctrl-Backspace
