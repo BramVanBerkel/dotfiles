@@ -275,3 +275,8 @@ sudo dnf clean all
 
 echo ""
 echo "Done!"
+
+read -rp "Reboot now? [y/N] " reboot_choice
+if [[ "$reboot_choice" =~ ^[Yy]$ ]]; then
+    sudo reboot
+fi
