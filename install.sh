@@ -148,6 +148,28 @@ else
     echo "  Jagex Launcher already installed"
 fi
 
+# --- AppImages ---
+echo ""
+echo "Installing AppImages..."
+
+mkdir -p "$HOME/Applications"
+
+# Helium Browser
+if ! flatpak run it.mijorus.gearlever --list-installed 2>/dev/null | grep -qi helium; then
+    echo "  Installing Helium Browser..."
+    HELIUM_VERSION=$(curl -fSs https://api.github.com/repos/imputnet/helium-linux/releases/latest | grep -o '"tag_name": *"[^"]*"' | head -1 | cut -d'"' -f4)
+    HELIUM_URL="https://github.com/imputnet/helium-linux/releases/download/${HELIUM_VERSION}/helium-${HELIUM_VERSION}-x86_64.AppImage"
+    HELIUM_FILE="$HOME/Applications/helium-${HELIUM_VERSION}-x86_64.AppImage"
+    curl -fSL -o "$HELIUM_FILE" "$HELIUM_URL"
+    chmod +x "$HELIUM_FILE"
+    flatpak run it.mijorus.gearlever --integrate "$HELIUM_FILE"
+else
+    echo "  Helium Browser already installed"
+fi
+
+echo "  Setting Helium as default browser..."
+xdg-settings set default-web-browser helium.desktop
+
 # --- Zsh ---
 echo ""
 echo "Setting up Zsh..."
