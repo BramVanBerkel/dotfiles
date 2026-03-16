@@ -220,6 +220,9 @@ gsettings set org.gnome.desktop.peripherals.mouse speed -0.23
 echo "  Disabling mouse acceleration..."
 gsettings set org.gnome.desktop.peripherals.mouse accel-profile 'flat'
 
+echo "  Showing seconds on clock..."
+gsettings set org.gnome.desktop.interface clock-show-seconds true
+
 echo "  Enabling dark mode..."
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
