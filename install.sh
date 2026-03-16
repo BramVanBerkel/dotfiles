@@ -67,7 +67,6 @@ else
     echo "  ffmpeg already swapped"
 fi
 sudo dnf group upgrade multimedia --exclude=PackageKit-gstreamer-plugin -y
-sudo dnf group upgrade sound-and-video -y
 
 DNF_PACKAGES=(
     xremap-gnome
