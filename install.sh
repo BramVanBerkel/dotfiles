@@ -259,6 +259,9 @@ gsettings set org.gnome.desktop.interface clock-show-seconds true
 echo "  Enabling dark mode..."
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
+echo "  Setting formats to Dutch..."
+gsettings set org.gnome.system.locale region 'nl_NL.UTF-8'
+
 echo "  Setting wallpaper..."
 cp "$DOTFILES_DIR/wallpaper.jpg" "$HOME/.config/background"
 gsettings set org.gnome.desktop.background picture-uri "file://$HOME/.config/background"
