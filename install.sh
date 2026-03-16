@@ -123,7 +123,6 @@ echo "Installing Flatpaks..."
 
 FLATPAKS=(
     com.bitwarden.desktop
-    com.jagexlauncher.JagexLauncher
     com.spotify.Client
     com.valvesoftware.Steam
     it.mijorus.gearlever
@@ -139,6 +138,14 @@ for app in "${FLATPAKS[@]}"; do
         echo "  $app already installed"
     fi
 done
+
+# Jagex Launcher (installed from custom repo)
+if ! flatpak info com.jagexlauncher.JagexLauncher &>/dev/null; then
+    echo "  Installing Jagex Launcher..."
+    curl -fSsL https://raw.githubusercontent.com/nmlynch94/com.jagexlauncher.JagexLauncher/main/install-jagex-launcher-repo.sh | bash
+else
+    echo "  Jagex Launcher already installed"
+fi
 
 # --- Zsh ---
 echo ""
