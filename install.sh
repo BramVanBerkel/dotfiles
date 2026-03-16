@@ -211,6 +211,9 @@ for ext in "${GNOME_EXTENSIONS[@]}"; do
     gext enable "$ext"
 done
 
+echo "  Disabling background logo..."
+gnome-extensions disable "background-logo@fedorahosted.org" 2>/dev/null || true
+
 echo "  Restoring extension configs..."
 dconf load /org/gnome/shell/extensions/dash-to-panel/ < "$DOTFILES_DIR/gnome-extensions/dash-to-panel.conf"
 dconf load /org/gnome/shell/extensions/search-light/ < "$DOTFILES_DIR/gnome-extensions/search-light.conf"
