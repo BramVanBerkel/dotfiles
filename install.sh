@@ -5,6 +5,16 @@ DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "Installing dotfiles from $DOTFILES_DIR"
 
+# --- Hostname ---
+echo ""
+echo "Setting hostname..."
+if [ "$(hostnamectl hostname)" != "fedora" ]; then
+    sudo hostnamectl set-hostname fedora
+    echo "  Hostname set to fedora"
+else
+    echo "  Hostname already set"
+fi
+
 # --- DNF configuration ---
 echo ""
 echo "Optimizing DNF configuration..."
