@@ -189,6 +189,11 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
+if grep -q '^# export PATH=$HOME/bin:$HOME/.local/bin' "$HOME/.zshrc" 2>/dev/null; then
+    echo "  Uncommenting PATH export..."
+    sed -i 's/^# export PATH=$HOME\/bin:$HOME\/.local\/bin/export PATH=$HOME\/bin:$HOME\/.local\/bin/' "$HOME/.zshrc"
+fi
+
 if ! grep -q 'alias open="xdg-open"' "$HOME/.zshrc" 2>/dev/null; then
     echo "  Adding open alias..."
     echo 'alias open="xdg-open"' >> "$HOME/.zshrc"
