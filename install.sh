@@ -88,6 +88,7 @@ fi
 sudo dnf group upgrade multimedia --exclude=PackageKit-gstreamer-plugin -y
 
 DNF_PACKAGES=(
+    pipx
     xremap-gnome
     zsh
 )
