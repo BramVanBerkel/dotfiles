@@ -218,5 +218,11 @@ cp "$DOTFILES_DIR/wallpaper.jpg" "$HOME/.config/background"
 gsettings set org.gnome.desktop.background picture-uri "file://$HOME/.config/background"
 gsettings set org.gnome.desktop.background picture-uri-dark "file://$HOME/.config/background"
 
+# --- Cleanup ---
+echo ""
+echo "Cleaning up..."
+sudo dnf autoremove -y
+sudo dnf clean all
+
 echo ""
 echo "Done!"
