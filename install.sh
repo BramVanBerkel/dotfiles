@@ -170,6 +170,16 @@ fi
 echo "  Setting Helium as default browser..."
 xdg-settings set default-web-browser helium.desktop
 
+# --- Zed ---
+echo ""
+echo "Installing Zed editor..."
+
+if [ ! -d "$HOME/.local/zed.app" ]; then
+    curl -f https://zed.dev/install.sh | sh
+else
+    echo "  Zed already installed"
+fi
+
 # --- Zsh ---
 echo ""
 echo "Setting up Zsh..."
