@@ -61,7 +61,11 @@ echo "Installing DNF packages..."
 
 # Media codecs
 echo "  Installing multimedia codecs..."
-sudo dnf swap ffmpeg-free ffmpeg --allowerasing -y
+if rpm -q ffmpeg-free &>/dev/null; then
+    sudo dnf swap ffmpeg-free ffmpeg --allowerasing -y
+else
+    echo "  ffmpeg already swapped"
+fi
 sudo dnf group upgrade multimedia --exclude=PackageKit-gstreamer-plugin -y
 sudo dnf group upgrade sound-and-video -y
 
