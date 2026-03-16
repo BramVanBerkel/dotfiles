@@ -55,6 +55,15 @@ for repo in "${COPR_REPOS[@]}"; do
     fi
 done
 
+# --- Remove bloat ---
+echo ""
+echo "Removing LibreOffice..."
+if rpm -qa | grep -q libreoffice; then
+    sudo dnf remove -y "libreoffice*"
+else
+    echo "  LibreOffice already removed"
+fi
+
 # --- DNF Packages ---
 echo ""
 echo "Installing DNF packages..."
