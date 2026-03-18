@@ -1,0 +1,11 @@
+[Unit]
+Description=xremap
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=10
+ExecStart=xremap %h/.config/xremap/config.yml
+
+[Install]
+WantedBy=default.target

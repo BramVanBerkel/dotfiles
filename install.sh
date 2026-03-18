@@ -231,6 +231,57 @@ fi
 ln -sf "$XREMAP_SRC" "$XREMAP_DEST"
 echo "  Linked $XREMAP_DEST -> $XREMAP_SRC"
 
+# --- xremap permissions ---
+echo ""
+echo "Setting up xremap permissions..."
+
+UDEV_RULE='KERNEL=="uinput", GROUP="input", TAG+="uaccess"'
+UDEV_FILE="/etc/udev/rules.d/input.rules"
+
+if [ ! -f "$UDEV_FILE" ] || ! grep -qF "$UDEV_RULE" "$UDEV_FILE"; then
+    echo "  Adding udev rule for uinput..."
+    echo "$UDEV_RULE" | sudo tee "$UDEV_FILE" > /dev/null
+else
+    echo "  Udev rule already configured"
+fi
+
+if ! groups "$USER" | grep -q '\binput\b'; then
+    echo "  Adding $USER to input group..."
+    sudo gpasswd -a "$USER" input
+else
+    echo "  $USER already in input group"
+fi
+
+if [ ! -f /etc/modules-load.d/uinput.conf ] || ! grep -q '^uinput$' /etc/modules-load.d/uinput.conf; then
+    echo "  Configuring uinput module to load at boot..."
+    echo uinput | sudo tee /etc/modules-load.d/uinput.conf > /dev/null
+else
+    echo "  uinput module already configured"
+fi
+
+# --- xremap service ---
+echo ""
+echo "Setting up xremap service..."
+
+SERVICE_DIR="$HOME/.local/share/systemd/user"
+SERVICE_SRC="$DOTFILES_DIR/xremap/xremap.service"
+SERVICE_DEST="$SERVICE_DIR/xremap.service"
+
+mkdir -p "$SERVICE_DIR"
+
+if [ -e "$SERVICE_DEST" ] && [ ! -L "$SERVICE_DEST" ]; then
+    echo "  Backing up existing $SERVICE_DEST to ${SERVICE_DEST}.bak"
+    mv "$SERVICE_DEST" "${SERVICE_DEST}.bak"
+fi
+
+ln -sf "$SERVICE_SRC" "$SERVICE_DEST"
+echo "  Linked $SERVICE_DEST -> $SERVICE_SRC"
+
+systemctl --user daemon-reload
+systemctl --user enable xremap
+systemctl --user start xremap
+echo "  xremap service enabled and started"
+
 # --- GNOME extensions ---
 echo ""
 echo "Installing GNOME extensions..."
