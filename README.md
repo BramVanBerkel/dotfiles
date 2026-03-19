@@ -75,6 +75,7 @@ Fedora setup script. Run with `./install.sh`.
 - [ ] Mouse speed set to -0.23, acceleration disabled
 - [ ] Clock shows seconds
 - [ ] Dark mode enabled
+- [ ] Window switcher shortcut set to Ctrl+Tab
 - [ ] Taskbar pinned apps set
 - [ ] Locale/formats set to Dutch (`nl_NL.UTF-8`)
 - [ ] Wallpaper set

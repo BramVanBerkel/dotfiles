@@ -374,6 +374,9 @@ gsettings set org.gnome.desktop.interface clock-show-seconds true
 echo "  Enabling dark mode..."
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
+echo "  Setting window switcher shortcut to Ctrl+Tab..."
+gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Super>Tab']"
+
 echo "  Setting pinned apps..."
 gsettings set org.gnome.shell favorite-apps "['helium.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'dev.zed.Zed.desktop', 'com.jagexlauncher.JagexLauncher.desktop', 'com.valvesoftware.Steam.desktop']"
 
