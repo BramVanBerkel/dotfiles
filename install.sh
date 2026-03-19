@@ -120,9 +120,13 @@ NVIDIA_PACKAGES=(
     xorg-x11-drv-nvidia-cuda
 )
 
+install_nvidia=false
 read -rp "Install NVIDIA drivers? [y/N] " nvidia_choice
 if [[ "$nvidia_choice" =~ ^[Yy]$ ]]; then
+    install_nvidia=true
     DNF_PACKAGES+=("${NVIDIA_PACKAGES[@]}")
+    read -rp "GPU power limit in watts? [200] " gpu_power_limit
+    gpu_power_limit=${gpu_power_limit:-200}
 fi
 
 for pkg in "${DNF_PACKAGES[@]}"; do
@@ -133,6 +137,30 @@ for pkg in "${DNF_PACKAGES[@]}"; do
         echo "  $pkg already installed"
     fi
 done
+
+# --- GPU power limit service ---
+if [[ "$install_nvidia" == true ]]; then
+    echo ""
+    echo "Setting up GPU power limit service (${gpu_power_limit}W)..."
+    cat <<EOF | sudo tee /etc/systemd/system/gpu-power-limit.service > /dev/null
+[Unit]
+Description=GPU power limiter
+After=network.target
+
+[Service]
+User=root
+Type=oneshot
+Restart=never
+RemainAfterExit=yes
+ExecStart=/usr/bin/bash -c "nvidia-smi -pl ${gpu_power_limit}"
+
+[Install]
+WantedBy=multi-user.target
+EOF
+    sudo systemctl daemon-reload
+    sudo systemctl enable gpu-power-limit.service
+    echo "  gpu-power-limit.service installed and enabled"
+fi
 
 # --- Flatpaks ---
 echo ""
