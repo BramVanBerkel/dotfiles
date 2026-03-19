@@ -27,6 +27,12 @@ run_quiet() {
 
 echo "Installing dotfiles from $DOTFILES_DIR"
 
+# --- Dependencies ---
+if ! command -v script &>/dev/null; then
+    echo "Installing util-linux-script..."
+    sudo dnf install -y util-linux-script > /dev/null
+fi
+
 # --- Hostname ---
 echo ""
 echo "Setting hostname..."
@@ -111,6 +117,7 @@ run_quiet sudo dnf group upgrade multimedia --exclude=PackageKit-gstreamer-plugi
 
 DNF_PACKAGES=(
     pipx
+    util-linux-script
     xremap-gnome
     zsh
 )
