@@ -24,6 +24,12 @@ keymap:
       Ctrl-Right: End
       Shift-Ctrl-Left: Shift-Home
       Shift-Ctrl-Right: Shift-End
+  - name: Make ⌥← and ⌥→ jump by word (with Shift for selection)
+    remap:
+      Alt-Left: Ctrl-Left
+      Alt-Right: Ctrl-Right
+      Shift-Alt-Left: Shift-Ctrl-Left
+      Shift-Alt-Right: Shift-Ctrl-Right
   - name: Delete word
     remap:
       Alt-Backspace: Ctrl-Backspace
