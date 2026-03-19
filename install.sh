@@ -9,7 +9,11 @@ run_quiet() {
     tput sc  # save cursor position
 
     set +e
-    script -qe -c "$(printf '%q ' "$@")" /dev/null
+    local cmd=""
+    for arg in "$@"; do
+        cmd+="'${arg//\'/\'\\\'\'}' "
+    done
+    script -qe -c "$cmd" /dev/null
     exit_code=$?
     set -e
 
