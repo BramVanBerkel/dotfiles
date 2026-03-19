@@ -147,7 +147,7 @@ if [[ "$install_nvidia" == true ]]; then
     cat <<EOF | sudo tee /etc/systemd/system/gpu-power-limit.service > /dev/null
 [Unit]
 Description=GPU power limiter
-After=network.target
+After=nvidia-persistenced.service
 
 [Service]
 User=root
