@@ -48,7 +48,7 @@ else
 fi
 
 echo "  Updating system..."
-run_quiet sudo dnf upgrade --refresh -y
+run_quiet sudo dnf update --refresh -y
 
 echo "  Updating firmware..."
 run_quiet sudo fwupdmgr refresh --force || true
