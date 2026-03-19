@@ -126,14 +126,19 @@ if [[ "$nvidia_choice" =~ ^[Yy]$ ]]; then
     gpu_power_limit=${gpu_power_limit:-200}
 fi
 
+MISSING_DNF=()
 for pkg in "${DNF_PACKAGES[@]}"; do
     if ! rpm -q "$pkg" &>/dev/null; then
-        echo "  Installing $pkg..."
-        run_quiet sudo dnf install -y "$pkg"
+        MISSING_DNF+=("$pkg")
     else
         echo "  $pkg already installed"
     fi
 done
+
+if [ ${#MISSING_DNF[@]} -gt 0 ]; then
+    echo "  Installing ${MISSING_DNF[*]}..."
+    run_quiet sudo dnf install -y "${MISSING_DNF[@]}"
+fi
 
 # --- GPU power limit service ---
 if [[ "$install_nvidia" == true ]]; then
@@ -177,14 +182,19 @@ FLATPAKS=(
     com.mattjakeman.ExtensionManager
 )
 
+MISSING_FLATPAKS=()
 for app in "${FLATPAKS[@]}"; do
     if ! flatpak info "$app" &>/dev/null; then
-        echo "  Installing $app..."
-        run_quiet flatpak install -y flathub "$app"
+        MISSING_FLATPAKS+=("$app")
     else
         echo "  $app already installed"
     fi
 done
+
+if [ ${#MISSING_FLATPAKS[@]} -gt 0 ]; then
+    echo "  Installing ${MISSING_FLATPAKS[*]}..."
+    run_quiet flatpak install -y flathub "${MISSING_FLATPAKS[@]}"
+fi
 
 # Jagex Launcher (installed from custom repo)
 if ! flatpak info com.jagexlauncher.JagexLauncher &>/dev/null; then
