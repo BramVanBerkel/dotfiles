@@ -4,13 +4,24 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 run_quiet() {
-    local output
-    if output=$("$@" 2>&1); then
-        return 0
-    else
-        echo "$output" >&2
-        return 1
+    local tmpfile exit_code line_count
+    tmpfile=$(mktemp)
+
+    set +e
+    "$@" 2>&1 | tee "$tmpfile"
+    exit_code=${PIPESTATUS[0]}
+    set -e
+
+    line_count=$(wc -l < "$tmpfile")
+    rm -f "$tmpfile"
+
+    if [ "$exit_code" -eq 0 ]; then
+        for ((i=0; i<line_count; i++)); do
+            printf '\033[A\033[2K'
+        done
     fi
+
+    return "$exit_code"
 }
 
 echo "Installing dotfiles from $DOTFILES_DIR"
