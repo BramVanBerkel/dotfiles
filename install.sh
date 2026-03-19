@@ -4,21 +4,18 @@ set -euo pipefail
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 run_quiet() {
-    local tmpfile exit_code line_count
-    tmpfile=$(mktemp)
+    local exit_code
+
+    tput sc  # save cursor position
 
     set +e
-    "$@" 2>&1 | tee "$tmpfile"
-    exit_code=${PIPESTATUS[0]}
+    script -qe -c "$(printf '%q ' "$@")" /dev/null
+    exit_code=$?
     set -e
 
-    line_count=$(wc -l < "$tmpfile")
-    rm -f "$tmpfile"
-
     if [ "$exit_code" -eq 0 ]; then
-        for ((i=0; i<line_count; i++)); do
-            printf '\033[A\033[2K'
-        done
+        tput rc  # restore cursor position
+        tput ed  # erase to end of display
     fi
 
     return "$exit_code"
