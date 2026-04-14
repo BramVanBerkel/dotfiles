@@ -221,21 +221,21 @@ echo "Installing AppImages..."
 
 mkdir -p "$HOME/Applications"
 
-# Helium Browser
-if ! flatpak run it.mijorus.gearlever --list-installed 2>/dev/null | grep -qi helium; then
-    echo "  Installing Helium Browser..."
-    HELIUM_VERSION=$(curl -fSs https://api.github.com/repos/imputnet/helium-linux/releases/latest | grep -o '"tag_name": *"[^"]*"' | head -1 | cut -d'"' -f4)
-    HELIUM_URL="https://github.com/imputnet/helium-linux/releases/download/${HELIUM_VERSION}/helium-${HELIUM_VERSION}-x86_64.AppImage"
-    HELIUM_FILE="$HOME/Applications/helium-${HELIUM_VERSION}-x86_64.AppImage"
-    curl -fSL -o "$HELIUM_FILE" "$HELIUM_URL"
-    chmod +x "$HELIUM_FILE"
-    flatpak run it.mijorus.gearlever --integrate "$HELIUM_FILE"
+# Zen Browser
+if ! flatpak run it.mijorus.gearlever --list-installed 2>/dev/null | grep -qi zen; then
+    echo "  Installing Zen Browser..."
+    ZEN_VERSION=$(curl -fSs https://api.github.com/repos/zen-browser/desktop/releases/latest | grep -o '"tag_name": *"[^"]*"' | head -1 | cut -d'"' -f4)
+    ZEN_URL="https://github.com/zen-browser/desktop/releases/download/${ZEN_VERSION}/zen-x86_64.AppImage"
+    ZEN_FILE="$HOME/Applications/zen-x86_64.AppImage"
+    curl -fSL -o "$ZEN_FILE" "$ZEN_URL"
+    chmod +x "$ZEN_FILE"
+    flatpak run it.mijorus.gearlever --integrate "$ZEN_FILE"
 else
-    echo "  Helium Browser already installed"
+    echo "  Zen Browser already installed"
 fi
 
-echo "  Setting Helium as default browser..."
-xdg-settings set default-web-browser helium.desktop
+echo "  Setting Zen as default browser..."
+xdg-settings set default-web-browser zen.desktop
 
 # --- Zed ---
 echo ""
@@ -396,7 +396,7 @@ echo "  Setting window switcher shortcut to Ctrl+Tab..."
 gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Super>Tab']"
 
 echo "  Setting pinned apps..."
-gsettings set org.gnome.shell favorite-apps "['helium.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'dev.zed.Zed.desktop', 'com.jagexlauncher.JagexLauncher.desktop', 'com.valvesoftware.Steam.desktop']"
+gsettings set org.gnome.shell favorite-apps "['zen.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'dev.zed.Zed.desktop', 'com.jagexlauncher.JagexLauncher.desktop', 'com.valvesoftware.Steam.desktop']"
 
 echo "  Setting formats to Dutch..."
 gsettings set org.gnome.system.locale region 'nl_NL.UTF-8'
