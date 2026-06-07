@@ -19,6 +19,8 @@ Fedora setup script. Run with `./install.sh`.
 - [ ] LibreOffice removed
 - [ ] Multimedia codecs installed (ffmpeg, GStreamer plugins)
 - [ ] `pipx` installed
+- [ ] `steam` installed
+- [ ] `util-linux-script` installed
 - [ ] `xremap-gnome` installed
 - [ ] `zsh` installed
 
@@ -32,15 +34,14 @@ Fedora setup script. Run with `./install.sh`.
 - [ ] Flathub remote enabled
 - [ ] Bitwarden (`com.bitwarden.desktop`)
 - [ ] Spotify (`com.spotify.Client`)
-- [ ] Steam (`com.valvesoftware.Steam`)
 - [ ] Gear Lever (`it.mijorus.gearlever`)
 - [ ] Resources (`net.nokyan.Resources`)
 - [ ] Extension Manager (`com.mattjakeman.ExtensionManager`)
 - [ ] Jagex Launcher (`com.jagexlauncher.JagexLauncher`)
 
 ### AppImages
-- [ ] Helium Browser installed and integrated via Gear Lever
-- [ ] Helium set as default browser
+- [ ] Zen Browser installed and integrated via Gear Lever
+- [ ] Zen set as default browser
 
 ### Zed
 - [ ] Zed editor installed (`~/.local/zed.app`)
