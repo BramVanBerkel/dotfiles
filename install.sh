@@ -118,7 +118,6 @@ run_quiet sudo dnf group upgrade multimedia --exclude=PackageKit-gstreamer-plugi
 DNF_PACKAGES=(
     pipx
     steam
-    util-linux-script
     xremap-gnome
     zsh
 )
@@ -393,7 +392,7 @@ echo "  Enabling dark mode..."
 gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 
 echo "  Setting window switcher shortcut to Ctrl+Tab..."
-gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Super>Tab']"
+gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Primary>Tab']"
 
 echo "  Setting pinned apps..."
 gsettings set org.gnome.shell favorite-apps "['zen.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'dev.zed.Zed.desktop', 'com.jagexlauncher.JagexLauncher.desktop', 'steam.desktop']"
