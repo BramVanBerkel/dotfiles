@@ -3,35 +3,7 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-run_quiet() {
-    local exit_code
-
-    tput sc  # save cursor position
-
-    set +e
-    local cmd=""
-    for arg in "$@"; do
-        cmd+="'${arg//\'/\'\\\'\'}' "
-    done
-    script -qe -c "$cmd" /dev/null
-    exit_code=$?
-    set -e
-
-    if [ "$exit_code" -eq 0 ]; then
-        tput rc  # restore cursor position
-        tput ed  # erase to end of display
-    fi
-
-    return "$exit_code"
-}
-
 echo "Installing dotfiles from $DOTFILES_DIR"
-
-# --- Dependencies ---
-if ! command -v script &>/dev/null; then
-    echo "Installing util-linux-script..."
-    sudo dnf install -y util-linux-script > /dev/null
-fi
 
 # --- Hostname ---
 echo ""
@@ -55,11 +27,11 @@ else
 fi
 
 echo "  Updating system..."
-run_quiet sudo dnf update --refresh -y
+sudo dnf update --refresh -y
 
 echo "  Updating firmware..."
-run_quiet sudo fwupdmgr refresh --force || true
-run_quiet sudo fwupdmgr update -y || true
+sudo fwupdmgr refresh --force || true
+sudo fwupdmgr update -y || true
 
 # --- Repositories ---
 echo ""
@@ -68,7 +40,7 @@ echo "Setting up repositories..."
 # RPM Fusion (free + nonfree)
 if ! rpm -q rpmfusion-free-release &>/dev/null || ! rpm -q rpmfusion-nonfree-release &>/dev/null; then
     echo "  Enabling RPM Fusion (free + nonfree)..."
-    run_quiet sudo dnf install -y \
+    sudo dnf install -y \
         "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm" \
         "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 else
@@ -77,7 +49,7 @@ fi
 
 # Cisco OpenH264
 echo "  Enabling Cisco OpenH264 repo..."
-run_quiet sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
+sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 
 # COPR repos
 COPR_REPOS=(
@@ -87,7 +59,7 @@ COPR_REPOS=(
 for repo in "${COPR_REPOS[@]}"; do
     if ! dnf copr list --enabled 2>/dev/null | grep -q "$repo"; then
         echo "  Enabling COPR repo $repo..."
-        run_quiet sudo dnf copr enable -y "$repo"
+        sudo dnf copr enable -y "$repo"
     else
         echo "  COPR $repo already enabled"
     fi
@@ -97,7 +69,7 @@ done
 echo ""
 echo "Removing LibreOffice..."
 if rpm -qa | grep -q libreoffice; then
-    run_quiet sudo dnf remove -y "libreoffice*"
+    sudo dnf remove -y "libreoffice*"
 else
     echo "  LibreOffice already removed"
 fi
@@ -109,11 +81,11 @@ echo "Installing DNF packages..."
 # Media codecs
 echo "  Installing multimedia codecs..."
 if rpm -q ffmpeg-free &>/dev/null; then
-    run_quiet sudo dnf swap ffmpeg-free ffmpeg --allowerasing -y
+    sudo dnf swap ffmpeg-free ffmpeg --allowerasing -y
 else
     echo "  ffmpeg already swapped"
 fi
-run_quiet sudo dnf group upgrade multimedia --exclude=PackageKit-gstreamer-plugin -y
+sudo dnf group upgrade multimedia --exclude=PackageKit-gstreamer-plugin -y
 
 DNF_PACKAGES=(
     pipx
@@ -148,7 +120,7 @@ done
 
 if [ ${#MISSING_DNF[@]} -gt 0 ]; then
     echo "  Installing ${MISSING_DNF[*]}..."
-    run_quiet sudo dnf install -y "${MISSING_DNF[@]}"
+    sudo dnf install -y "${MISSING_DNF[@]}"
 fi
 
 # --- GPU power limit service ---
@@ -180,7 +152,7 @@ echo ""
 echo "Setting up Flatpak..."
 
 echo "  Enabling Flathub..."
-run_quiet flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "Installing Flatpaks..."
 
@@ -203,13 +175,13 @@ done
 
 if [ ${#MISSING_FLATPAKS[@]} -gt 0 ]; then
     echo "  Installing ${MISSING_FLATPAKS[*]}..."
-    run_quiet flatpak install -y flathub "${MISSING_FLATPAKS[@]}"
+    flatpak install -y flathub "${MISSING_FLATPAKS[@]}"
 fi
 
 # Jagex Launcher (installed from custom repo)
 if ! flatpak info com.jagexlauncher.JagexLauncher &>/dev/null; then
     echo "  Installing Jagex Launcher..."
-    run_quiet bash -c 'curl -fSsL https://raw.githubusercontent.com/nmlynch94/com.jagexlauncher.JagexLauncher/main/install-jagex-launcher-repo.sh | bash'
+    bash -c 'curl -fSsL https://raw.githubusercontent.com/nmlynch94/com.jagexlauncher.JagexLauncher/main/install-jagex-launcher-repo.sh | bash'
 else
     echo "  Jagex Launcher already installed"
 fi
@@ -252,7 +224,7 @@ echo "Setting up Zsh..."
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo "  Installing Oh My Zsh..."
-    run_quiet sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi
 
 if grep -q '^# export PATH=$HOME/bin:$HOME/.local/bin' "$HOME/.zshrc" 2>/dev/null; then
@@ -344,7 +316,7 @@ echo "Installing GNOME extensions..."
 
 if ! command -v gext &>/dev/null; then
     echo "  Installing gnome-extensions-cli..."
-    run_quiet pipx install gnome-extensions-cli
+    pipx install gnome-extensions-cli
 fi
 
 GNOME_EXTENSIONS=(
@@ -358,11 +330,11 @@ GNOME_EXTENSIONS=(
 for ext in "${GNOME_EXTENSIONS[@]}"; do
     if ! gnome-extensions list | grep -q "$ext"; then
         echo "  Installing $ext..."
-        run_quiet gext install "$ext"
+        gext install "$ext"
     else
         echo "  $ext already installed"
     fi
-    run_quiet gext enable "$ext"
+    gext enable "$ext"
 done
 
 echo "  Disabling background logo..."
@@ -408,8 +380,8 @@ gsettings set org.gnome.desktop.background picture-uri-dark "file://$HOME/.confi
 # --- Cleanup ---
 echo ""
 echo "Cleaning up..."
-run_quiet sudo dnf autoremove -y
-run_quiet sudo dnf clean all
+sudo dnf autoremove -y
+sudo dnf clean all
 
 echo ""
 echo "Done!"
