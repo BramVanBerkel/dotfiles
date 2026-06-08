@@ -5,7 +5,7 @@ Description=xremap
 Type=simple
 Restart=on-failure
 RestartSec=10
-ExecStart=xremap %h/.config/xremap/config.yml
+ExecStart=xremap --watch=device,config %h/.config/xremap/config.yml
 
 [Install]
 WantedBy=default.target
