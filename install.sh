@@ -206,7 +206,12 @@ else
 fi
 
 echo "  Setting Zen as default browser..."
-xdg-settings set default-web-browser zen.desktop
+ZEN_DESKTOP=$(grep -rli "name=zen" "$HOME/.local/share/applications/" --include="*.desktop" 2>/dev/null | head -1 | xargs -r basename)
+if [ -n "$ZEN_DESKTOP" ]; then
+    xdg-settings set default-web-browser "$ZEN_DESKTOP" || echo "  Could not set default browser"
+else
+    echo "  Could not find Zen desktop file, skipping"
+fi
 
 # --- Zed ---
 echo ""
