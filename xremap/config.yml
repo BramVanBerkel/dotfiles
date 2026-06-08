@@ -19,11 +19,21 @@ modmap:
 # For remapping a sequence of key combinations to another sequence of key combinations
 keymap:
   - name: Make ⌘← and ⌘→ work as Home and End (with Shift for selection)
+    application:
+      not: [com.github.amezin.ddterm]
     remap:
       Ctrl-Left: Home
       Ctrl-Right: End
       Shift-Ctrl-Left: Shift-Home
       Shift-Ctrl-Right: Shift-End
+  - name: In ddterm, ⌥← and ⌥→ act as Home and End (with Shift for selection)
+    application:
+      only: [com.github.amezin.ddterm]
+    remap:
+      Alt-Left: Home
+      Alt-Right: End
+      Shift-Alt-Left: Shift-Home
+      Shift-Alt-Right: Shift-End
   - name: Make ⌥← and ⌥→ jump by word (with Shift for selection)
     remap:
       Alt-Left: Ctrl-Left
