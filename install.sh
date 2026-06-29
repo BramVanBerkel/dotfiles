@@ -74,6 +74,13 @@ else
     echo "  LibreOffice already removed"
 fi
 
+echo "Removing GNOME System Monitor..."
+if rpm -q gnome-system-monitor &>/dev/null; then
+    sudo dnf remove -y gnome-system-monitor
+else
+    echo "  GNOME System Monitor already removed"
+fi
+
 # --- DNF Packages ---
 echo ""
 echo "Installing DNF packages..."
