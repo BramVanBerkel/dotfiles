@@ -90,6 +90,7 @@ sudo dnf group upgrade multimedia --exclude=PackageKit-gstreamer-plugin -y
 DNF_PACKAGES=(
     pipx
     steam
+    wl-clipboard
     xremap-gnome
     zsh
 )
@@ -240,6 +241,12 @@ fi
 if ! grep -q 'alias open="xdg-open"' "$HOME/.zshrc" 2>/dev/null; then
     echo "  Adding open alias..."
     echo 'alias open="xdg-open"' >> "$HOME/.zshrc"
+fi
+
+if ! grep -q 'alias pbcopy="wl-copy"' "$HOME/.zshrc" 2>/dev/null; then
+    echo "  Adding pbcopy/pbpaste aliases..."
+    echo 'alias pbcopy="wl-copy"' >> "$HOME/.zshrc"
+    echo 'alias pbpaste="wl-paste"' >> "$HOME/.zshrc"
 fi
 
 if [ "$SHELL" != "$(which zsh)" ]; then
