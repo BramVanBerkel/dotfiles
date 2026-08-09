@@ -5,7 +5,9 @@ keypress_delay_ms: 10
 modmap:
   - name: Mouse keys for RuneLite
     application:
-      only: net-runelite-client-RuneLite
+      # Jagex launcher starts the client from the launcher JVM, so AWT reports
+      # the launcher class; a direct RuneLite start still reports the client one
+      only: [net-runelite-client-RuneLite, net-runelite-launcher-Launcher]
     remap:
       BTN_SIDE: Esc
       BTN_EXTRA: Space
