@@ -1,5 +1,9 @@
 [Unit]
 Description=xremap
+# On KDE, xremap loads its KWin script over D-Bus at startup, so it needs the
+# session up first. Harmless on GNOME.
+PartOf=graphical-session.target
+After=graphical-session.target
 
 [Service]
 Type=simple
