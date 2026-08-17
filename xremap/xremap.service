@@ -12,4 +12,8 @@ RestartSec=10
 ExecStart=xremap --watch=device,config %h/.config/xremap/config.yml
 
 [Install]
-WantedBy=default.target
+# Must match PartOf above. With WantedBy=default.target the unit was stopped
+# with the graphical session but never started again, since default.target is
+# only reached once per user-manager lifetime: any gnome-shell restart left
+# xremap dead until the next reboot.
+WantedBy=graphical-session.target
