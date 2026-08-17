@@ -137,9 +137,11 @@ configure_mice() {
 
                 group_name="$name"
                 echo "  Configuring pointer: $group_name"
+                # -- ends option parsing; without it kwriteconfig6 reads the
+                # negative value as bundled short options and bails out.
                 kwriteconfig6 --file kcminputrc \
                     --group Libinput --group "$((16#$vendor))" --group "$((16#$product))" --group "$group_name" \
-                    --key PointerAcceleration -0.230
+                    --key PointerAcceleration -- -0.230
                 kwriteconfig6 --file kcminputrc \
                     --group Libinput --group "$((16#$vendor))" --group "$((16#$product))" --group "$group_name" \
                     --key PointerAccelerationProfile 1
