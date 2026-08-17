@@ -218,16 +218,6 @@ install_flatpaks() {
     fi
 }
 
-# Jagex Launcher (installed from custom repo)
-install_jagex_launcher() {
-    if ! flatpak info com.jagexlauncher.JagexLauncher &>/dev/null; then
-        echo "  Installing Jagex Launcher..."
-        bash -c 'curl -fSsL https://raw.githubusercontent.com/nmlynch94/com.jagexlauncher.JagexLauncher/main/install-jagex-launcher-repo.sh | bash'
-    else
-        echo "  Jagex Launcher already installed"
-    fi
-}
-
 # --- AppImages ---
 
 install_zen() {

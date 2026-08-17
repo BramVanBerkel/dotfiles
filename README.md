@@ -38,10 +38,10 @@ to copy that config back into the repo so `install-kde.sh` can restore it later.
 
 ### Flatpaks (shared)
 - [ ] Flathub remote enabled
+- [ ] Bolt Launcher (`com.adamcake.Bolt`)
 - [ ] Bitwarden (`com.bitwarden.desktop`)
 - [ ] Spotify (`com.spotify.Client`)
 - [ ] Gear Lever (`it.mijorus.gearlever`)
-- [ ] Jagex Launcher (`com.jagexlauncher.JagexLauncher`)
 
 ### Apps (shared)
 - [ ] Zen Browser installed and integrated via Gear Lever

@@ -55,10 +55,10 @@ setup_gpu_power_limit
 # --- Flatpaks ---
 setup_flatpak_remote
 install_flatpaks \
+    com.adamcake.Bolt \
     com.bitwarden.desktop \
     com.spotify.Client \
     it.mijorus.gearlever
-install_jagex_launcher
 
 # --- Apps ---
 install_zen
