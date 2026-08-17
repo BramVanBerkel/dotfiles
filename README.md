@@ -80,12 +80,10 @@ so the scripts don't write one.
 - [ ] `gnome-extensions-cli` (`gext`) installed via pipx
 - [ ] Dash to Panel installed and enabled
 - [ ] AppIndicator Support installed and enabled
-- [ ] Search Light installed and enabled
 - [ ] ddterm installed and enabled
 - [ ] xremap extension installed and enabled
 - [ ] Background logo extension disabled
 - [ ] Dash to Panel config restored
-- [ ] Search Light config restored
 
 ### Settings
 - [ ] Minimize and maximize buttons enabled
@@ -109,7 +107,7 @@ Native `plasma-systemmonitor` is kept, so no Resources flatpak here.
 ### Settings
 - [ ] Mouse speed set to -0.230, flat acceleration (per device, in `kcminputrc`)
 - [ ] Window switcher shortcut set to Ctrl+Tab
-- [ ] KRunner shortcut set to Ctrl+Space (replaces Search Light)
+- [ ] KRunner shortcut set to Ctrl+Space
 - [ ] Locale/formats set to Dutch (`nl_NL.UTF-8`)
 - [ ] Dark mode enabled (Breeze Dark)
 - [ ] Wallpaper set

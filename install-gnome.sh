@@ -71,7 +71,6 @@ fi
 GNOME_EXTENSIONS=(
     "dash-to-panel@jderose9.github.com"
     "appindicatorsupport@rgcjonas.gmail.com"
-    "search-light@icedman.github.com"
     "ddterm@amezin.github.com"
     "xremap@k0kubun.com"
 )
@@ -91,7 +90,6 @@ gnome-extensions disable "background-logo@fedorahosted.org" 2>/dev/null || true
 
 echo "  Restoring extension configs..."
 dconf load /org/gnome/shell/extensions/dash-to-panel/ < "$DOTFILES_DIR/gnome-extensions/dash-to-panel.conf"
-dconf load /org/gnome/shell/extensions/search-light/ < "$DOTFILES_DIR/gnome-extensions/search-light.conf"
 
 # --- GNOME settings ---
 echo ""
