@@ -112,7 +112,11 @@ install_codecs() {
     else
         echo "  ffmpeg already swapped"
     fi
-    sudo dnf group upgrade multimedia --exclude=PackageKit-gstreamer-plugin -y
+    # install, not upgrade: dnf only upgrades a group that is already marked
+    # installed and errors out otherwise, which would abort the whole script.
+    # install works either way, and adds the RPM Fusion codecs that only became
+    # available once the repos above were enabled.
+    sudo dnf group install multimedia --exclude=PackageKit-gstreamer-plugin -y
 }
 
 install_dnf_packages() {
