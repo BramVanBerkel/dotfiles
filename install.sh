@@ -2,8 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-# shellcheck source=common.sh
-source "$SCRIPT_DIR/common.sh"
+# shellcheck source=lib.sh
+source "$SCRIPT_DIR/lib.sh"
 
 echo "Installing dotfiles from $DOTFILES_DIR (GNOME)"
 

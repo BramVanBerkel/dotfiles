@@ -1,6 +1,6 @@
 #!/bin/bash
-# Desktop-independent parts of the Fedora setup.
-# Sourced by install-gnome.sh and install-kde.sh; defines functions only.
+# Implementation of each step of the Fedora setup.
+# Sourced by install.sh; defines functions only.
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -141,7 +141,7 @@ install_dnf_packages() {
 
 # --- NVIDIA ---
 
-# shellcheck disable=SC2034  # consumed by the sourcing install-*.sh
+# shellcheck disable=SC2034  # consumed by install.sh
 NVIDIA_PACKAGES=(
     akmod-nvidia
     xorg-x11-drv-nvidia
@@ -300,9 +300,9 @@ setup_zsh() {
 
 # --- xremap ---
 
-# The xremap-gnome / xremap-kde packages own the `xremap` alternatives symlink,
-# so the same config and unit work on either desktop. They also ship the uinput
-# udev rule themselves, so only the group and module need setting up here.
+# The xremap-gnome package owns the `xremap` alternatives symlink, so the config
+# and unit below just call `xremap`. It also ships the uinput udev rule itself,
+# so only the group and module need setting up here.
 setup_xremap() {
     echo ""
     echo "Setting up xremap config..."
@@ -337,7 +337,7 @@ setup_xremap() {
 
 # --- Wallpaper ---
 
-# Copies the wallpaper into place; each desktop applies it its own way.
+# Copies the wallpaper into place; the caller points GNOME at it.
 set_wallpaper_file() {
     echo "  Copying wallpaper..."
     cp "$DOTFILES_DIR/wallpaper.jpg" "$HOME/.config/background"

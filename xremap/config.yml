@@ -22,9 +22,8 @@ modmap:
 # For remapping a sequence of key combinations to another sequence of key combinations
 keymap:
   - name: Make ⌘← and ⌘→ work as Home and End (with Shift for selection)
-    # ddterm on GNOME, Yakuake on KDE; only one of the two exists per machine
     application:
-      not: [com.github.amezin.ddterm, org.kde.yakuake]
+      not: [com.github.amezin.ddterm]
     remap:
       Ctrl-Left: Home
       Ctrl-Right: End
@@ -32,7 +31,7 @@ keymap:
       Shift-Ctrl-Right: Shift-End
   - name: In the drop-down terminal, ⌥← and ⌥→ act as Home and End (with Shift for selection)
     application:
-      only: [com.github.amezin.ddterm, org.kde.yakuake]
+      only: [com.github.amezin.ddterm]
     remap:
       Alt-Left: Home
       Alt-Right: End

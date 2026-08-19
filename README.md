@@ -1,62 +1,60 @@
 # Dotfiles
 
-Fedora setup scripts. Pick the one matching your desktop:
+Fedora Workstation (GNOME) setup script: `./install.sh`
 
-- GNOME (Fedora Workstation): `./install-gnome.sh`
-- KDE Plasma (Fedora KDE): `./install-kde.sh`
-
-Both source `common.sh`, which holds everything that isn't desktop-specific.
-
-After arranging the Plasma panel and shortcuts by hand, run `kde/export-config.sh`
-to copy that config back into the repo so `install-kde.sh` can restore it later.
+It sources `lib.sh`, which holds the implementation of each step.
 
 ## Checklist
 
-### System (shared)
+### System
 - [ ] Hostname set to `fedora`
 - [ ] DNF `max_parallel_downloads=10` configured
 - [ ] System packages updated (`dnf upgrade`)
 - [ ] Firmware updated (`fwupdmgr`)
 
-### Repositories (shared)
+### Repositories
 - [ ] RPM Fusion (free + nonfree) enabled
 - [ ] Cisco OpenH264 repo enabled
 - [ ] COPR `blakegardner/xremap` enabled
 
-### Packages (shared)
+### Packages
 - [ ] LibreOffice removed
+- [ ] GNOME System Monitor removed (replaced by Resources)
 - [ ] Multimedia codecs installed (ffmpeg, GStreamer plugins)
+- [ ] `pipx` installed (for `gext`)
 - [ ] `steam` installed
 - [ ] `wl-clipboard` installed
 - [ ] `zsh` installed
 
-### NVIDIA (optional, shared)
+### NVIDIA (optional)
 - [ ] `akmod-nvidia` installed
 - [ ] `xorg-x11-drv-nvidia` installed
 - [ ] `xorg-x11-drv-nvidia-cuda` installed
 - [ ] GPU power limit service installed and enabled (`systemctl status gpu-power-limit.service`)
 
-### Flatpaks (shared)
+### Flatpaks
 - [ ] Flathub remote enabled
 - [ ] Bolt Launcher (`com.adamcake.Bolt`)
 - [ ] Bitwarden (`com.bitwarden.desktop`)
 - [ ] Spotify (`com.spotify.Client`)
 - [ ] Gear Lever (`it.mijorus.gearlever`)
+- [ ] Resources (`net.nokyan.Resources`)
+- [ ] Extension Manager (`com.mattjakeman.ExtensionManager`)
 
-### Apps (shared)
+### Apps
 - [ ] Zen Browser installed and integrated via Gear Lever
 - [ ] Zen set as default browser
 - [ ] Zed editor installed (`~/.local/zed.app`)
 
-### Zsh (shared)
+### Zsh
 - [ ] Oh My Zsh installed (`~/.oh-my-zsh`)
 - [ ] `PATH` export uncommented in `.zshrc`
 - [ ] `alias open="xdg-open"` added to `.zshrc`
 - [ ] `pbcopy`/`pbpaste` aliases added to `.zshrc`
 - [ ] Zsh set as default shell
 
-### xremap (shared)
-- [ ] `xremap-gnome` (GNOME) or `xremap-kde` (KDE) installed — they conflict, never both
+### xremap
+- [ ] `xremap-gnome` installed
 - [ ] Config symlinked to `~/.config/xremap/config.yml`
 - [ ] User added to `input` group
 - [ ] `uinput` module configured to load at boot
@@ -64,17 +62,7 @@ to copy that config back into the repo so `install-kde.sh` can restore it later.
 - [ ] xremap service enabled and running (`systemctl --user status xremap`)
 
 The uinput udev rule ships with the xremap package (`/usr/lib/udev/rules.d/00-xremap-input.rules`),
-so the scripts don't write one.
-
-## GNOME
-
-### Packages
-- [ ] GNOME System Monitor removed (replaced by Resources)
-- [ ] `pipx` installed (for `gext`)
-
-### Flatpaks
-- [ ] Resources (`net.nokyan.Resources`)
-- [ ] Extension Manager (`com.mattjakeman.ExtensionManager`)
+so the script doesn't write one.
 
 ### Extensions
 - [ ] `gnome-extensions-cli` (`gext`) installed via pipx
@@ -94,24 +82,3 @@ so the scripts don't write one.
 - [ ] Taskbar pinned apps set
 - [ ] Locale/formats set to Dutch (`nl_NL.UTF-8`)
 - [ ] Wallpaper set
-
-## KDE Plasma
-
-### Packages
-- [ ] `ptyxis` installed (not shipped by Fedora KDE)
-- [ ] `yakuake` installed (drop-down terminal, replaces ddterm)
-- [ ] Yakuake autostart enabled (`~/.config/autostart/`)
-
-Native `plasma-systemmonitor` is kept, so no Resources flatpak here.
-
-### Settings
-- [ ] Mouse speed set to -0.230, flat acceleration (per device, in `kcminputrc`)
-- [ ] Window switcher shortcut set to Ctrl+Tab
-- [ ] KRunner shortcut set to Ctrl+Space
-- [ ] Locale/formats set to Dutch (`nl_NL.UTF-8`)
-- [ ] Dark mode enabled (Breeze Dark)
-- [ ] Wallpaper set
-- [ ] Panel layout, pinned apps and clock seconds restored from `kde/plasma-org.kde.plasma.desktop-appletsrc`
-- [ ] Global shortcuts restored from `kde/kglobalshortcutsrc`
-
-Minimize/maximize buttons need no setting — Breeze shows them by default.
