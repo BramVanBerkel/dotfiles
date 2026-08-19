@@ -72,6 +72,12 @@ so the script doesn't write one.
 - [ ] xremap extension installed and enabled
 - [ ] Background logo extension disabled
 - [ ] Dash to Panel config restored
+- [ ] SearchLightNG installed and enabled (`search-light-ng@salix.host`)
+- [ ] SearchLightNG config restored (launcher on Ctrl+Space, i.e. ⌘+Space)
+
+SearchLightNG replaces the unmaintained Search Light, which crashed the GNOME 50
+session. It isn't on extensions.gnome.org, so it comes from upstream's installer
+at <https://git.salix.host/salix/searchlightng> rather than through `gext`.
 
 ### Settings
 - [ ] Minimize and maximize buttons enabled

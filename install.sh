@@ -91,6 +91,8 @@ gnome-extensions disable "background-logo@fedorahosted.org" 2>/dev/null || true
 echo "  Restoring extension configs..."
 dconf load /org/gnome/shell/extensions/dash-to-panel/ < "$DOTFILES_DIR/gnome-extensions/dash-to-panel.conf"
 
+install_searchlightng
+
 # --- GNOME settings ---
 echo ""
 echo "Configuring GNOME settings..."

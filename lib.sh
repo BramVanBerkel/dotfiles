@@ -335,6 +335,35 @@ setup_xremap() {
     echo "  xremap service enabled and started"
 }
 
+# --- SearchLightNG ---
+
+# Not on extensions.gnome.org, so gext cannot reach it and it stays out of the
+# GNOME_EXTENSIONS list: it is published only from the maintainer's own Forgejo.
+# Upstream's installer packs the branch tarball with `gnome-extensions pack` and
+# installs that, so the --extra-source list it needs stays in their hands rather
+# than being copied here to rot.
+SEARCHLIGHTNG_UUID="search-light-ng@salix.host"
+
+install_searchlightng() {
+    echo ""
+    echo "Installing SearchLightNG..."
+
+    if gnome-extensions list | grep -q "$SEARCHLIGHTNG_UUID"; then
+        echo "  SearchLightNG already installed"
+    else
+        curl -fsSL https://git.salix.host/salix/searchlightng/raw/branch/main/install.sh | bash
+    fi
+
+    echo "  Restoring SearchLightNG config..."
+    dconf load /org/gnome/shell/extensions/search-light-ng/ < "$DOTFILES_DIR/gnome-extensions/search-light-ng.conf"
+
+    # Wayland only picks up a freshly installed extension after a relogin, so
+    # enabling can legitimately fail here; don't take the script down with it.
+    if ! gnome-extensions enable "$SEARCHLIGHTNG_UUID" 2>/dev/null; then
+        echo "  Could not enable yet - run 'gnome-extensions enable $SEARCHLIGHTNG_UUID' after the next login"
+    fi
+}
+
 # --- Wallpaper ---
 
 # Copies the wallpaper into place; the caller points GNOME at it.
