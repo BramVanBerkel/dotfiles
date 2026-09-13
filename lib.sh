@@ -243,7 +243,10 @@ install_zen() {
 set_default_browser() {
     echo "  Setting Zen as default browser..."
     local zen_desktop
-    zen_desktop=$(grep -rli "name=zen" "$HOME/.local/share/applications/" --include="*.desktop" 2>/dev/null | head -1 | xargs -r basename)
+    # grep fails when nothing matches or the directory is missing; under
+    # pipefail that would abort the whole script instead of reaching the
+    # "Could not find" branch below.
+    zen_desktop=$(grep -rli "name=zen" "$HOME/.local/share/applications/" --include="*.desktop" 2>/dev/null | head -1 | xargs -r basename) || true
     if [ -n "$zen_desktop" ]; then
         xdg-settings set default-web-browser "$zen_desktop" || echo "  Could not set default browser"
     else
