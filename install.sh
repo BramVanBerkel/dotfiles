@@ -116,7 +116,7 @@ echo "  Setting window switcher shortcut to Ctrl+Tab..."
 gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Primary>Tab']"
 
 echo "  Setting pinned apps..."
-gsettings set org.gnome.shell favorite-apps "['zen_browser.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'dev.zed.Zed.desktop', 'com.adamcake.Bolt.desktop', 'steam.desktop']"
+gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.gnome.Ptyxis.desktop', 'com.bitwarden.desktop.desktop', 'steam.desktop', 'dev.zed.Zed.desktop', 'com.adamcake.Bolt.desktop', 'zen_browser.desktop']"
 
 echo "  Setting formats to Dutch..."
 gsettings set org.gnome.system.locale region 'nl_NL.UTF-8'
