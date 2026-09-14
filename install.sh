@@ -39,6 +39,8 @@ fi
 
 install_dnf_packages "${DNF_PACKAGES[@]}"
 setup_gpu_power_limit
+setup_nvidia_module_signing
+setup_nvidia_initramfs
 
 # --- Flatpaks ---
 setup_flatpak_remote

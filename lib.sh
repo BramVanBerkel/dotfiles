@@ -193,6 +193,57 @@ EOF
     echo "  gpu-power-limit.service installed and enabled"
 }
 
+# akmods' brp-kmodsign step has been observed to silently no-op on some Fedora
+# releases, leaving the built nvidia kmod unsigned. Under Secure Boot that
+# module then gets rejected at load time, so re-sign it here with the same MOK
+# key akmods already generated (and that the user has separately enrolled).
+setup_nvidia_module_signing() {
+    [[ "$INSTALL_NVIDIA" == true ]] || return 0
+
+    echo ""
+    echo "Verifying NVIDIA kernel module signature..."
+    sudo bash -c '
+        set -e
+        kver="$(uname -r)"
+        moddir="/lib/modules/$kver/extra/nvidia"
+        priv="/etc/pki/akmods/private/private_key.priv"
+        pub="/etc/pki/akmods/certs/public_key.der"
+        signfile="/usr/src/kernels/$kver/scripts/sign-file"
+
+        [[ -d "$moddir" && -x "$signfile" && -f "$priv" && -f "$pub" ]] || exit 0
+
+        resigned=false
+        for m in nvidia nvidia-drm nvidia-modeset nvidia-uvm nvidia-peermem; do
+            f="$moddir/$m.ko.xz"
+            [[ -f "$f" ]] || continue
+            tmp="$(mktemp -d)"
+            unxz -k -c "$f" > "$tmp/$m.ko"
+            if [[ "$(tail -c 28 "$tmp/$m.ko")" != "~Module signature appended~" ]]; then
+                echo "  Signing $m.ko (akmods built it unsigned)..."
+                "$signfile" sha256 "$priv" "$pub" "$tmp/$m.ko"
+                xz --compress --check=crc32 --lzma2=dict=1MiB -c "$tmp/$m.ko" > "$f"
+                resigned=true
+            fi
+            rm -rf "$tmp"
+        done
+        [[ "$resigned" == true ]] && depmod -a
+        exit 0
+    '
+}
+
+# The nvidia packages add rd.driver.blacklist=nouveau to the kernel command
+# line, but that alone does not keep nouveau out of an initramfs that was
+# already built before the driver was installed - nouveau then still loads
+# first at boot and holds the GPU, so nvidia fails with "No such device".
+# Rebuilding the initramfs here is what actually excludes it.
+setup_nvidia_initramfs() {
+    [[ "$INSTALL_NVIDIA" == true ]] || return 0
+
+    echo ""
+    echo "Regenerating initramfs so nouveau doesn't load ahead of nvidia..."
+    sudo dracut -f
+}
+
 # --- Flatpaks ---
 
 setup_flatpak_remote() {
