@@ -81,7 +81,8 @@ setup_repos() {
 
     local repo
     for repo in "${COPR_REPOS[@]}"; do
-        if ! dnf copr list --enabled 2>/dev/null | grep -q "$repo"; then
+        # dnf5's `copr list` has no --enabled; disabled repos carry a suffix.
+        if ! grep -q "/$repo\$" <<<"$(dnf copr list 2>/dev/null)"; then
             echo "  Enabling COPR repo $repo..."
             sudo dnf copr enable -y "$repo"
         else
@@ -95,7 +96,10 @@ setup_repos() {
 remove_libreoffice() {
     echo ""
     echo "Removing LibreOffice..."
-    if rpm -qa | grep -q libreoffice; then
+    # Not `rpm -qa | grep -q`: grep exits on the first match, rpm dies of SIGPIPE
+    # while still writing, and pipefail turns the match into a failure. The same
+    # applies to every `cmd | grep -q` check in these scripts.
+    if grep -q libreoffice <<<"$(rpm -qa)"; then
         sudo dnf remove -y "libreoffice*"
     else
         echo "  LibreOffice already removed"
@@ -226,7 +230,7 @@ install_zen() {
 
     mkdir -p "$HOME/Applications"
 
-    if ! flatpak run it.mijorus.gearlever --list-installed 2>/dev/null | grep -qi zen; then
+    if ! grep -qi zen <<<"$(flatpak run it.mijorus.gearlever --list-installed 2>/dev/null)"; then
         echo "  Installing Zen Browser..."
         local zen_version zen_url zen_file
         zen_version=$(curl -fSs https://api.github.com/repos/zen-browser/desktop/releases/latest | grep -o '"tag_name": *"[^"]*"' | head -1 | cut -d'"' -f4)
@@ -314,7 +318,7 @@ setup_xremap() {
     echo ""
     echo "Setting up xremap permissions..."
 
-    if ! groups "$USER" | grep -q '\binput\b'; then
+    if ! grep -q '\binput\b' <<<"$(groups "$USER")"; then
         echo "  Adding $USER to input group..."
         sudo gpasswd -a "$USER" input
     else
@@ -351,7 +355,7 @@ install_searchlightng() {
     echo ""
     echo "Installing SearchLightNG..."
 
-    if gnome-extensions list | grep -q "$SEARCHLIGHTNG_UUID"; then
+    if grep -q "$SEARCHLIGHTNG_UUID" <<<"$(gnome-extensions list)"; then
         echo "  SearchLightNG already installed"
     else
         curl -fsSL https://git.salix.host/salix/searchlightng/raw/branch/main/install.sh | bash

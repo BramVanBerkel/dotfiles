@@ -76,7 +76,7 @@ GNOME_EXTENSIONS=(
 )
 
 for ext in "${GNOME_EXTENSIONS[@]}"; do
-    if ! gnome-extensions list | grep -q "$ext"; then
+    if ! grep -q "$ext" <<<"$(gnome-extensions list)"; then
         echo "  Installing $ext..."
         gext install "$ext"
     else
