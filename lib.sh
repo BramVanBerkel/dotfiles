@@ -26,7 +26,7 @@ link_config() {
 setup_hostname() {
     echo ""
     echo "Setting hostname..."
-    if [ "$(hostnamectl hostname)" != "fedora" ]; then
+    if [ "$(hostnamectl --static)" != "fedora" ]; then
         sudo hostnamectl set-hostname fedora
         echo "  Hostname set to fedora"
     else
