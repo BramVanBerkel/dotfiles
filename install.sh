@@ -85,6 +85,13 @@ for ext in "${GNOME_EXTENSIONS[@]}"; do
     gext enable "$ext"
 done
 
+# gext-installed extensions don't preserve the executable bit on bundled
+# binaries, so ddterm's helper fails with "Permission denied" until we fix it up.
+ddterm_bin="$HOME/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/bin/com.github.amezin.ddterm"
+if [ -f "$ddterm_bin" ]; then
+    chmod +x "$ddterm_bin"
+fi
+
 echo "  Disabling background logo..."
 gnome-extensions disable "background-logo@fedorahosted.org" 2>/dev/null || true
 
