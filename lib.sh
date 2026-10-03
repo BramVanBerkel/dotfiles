@@ -171,19 +171,21 @@ prompt_nvidia() {
 setup_gpu_power_limit() {
     [[ "$INSTALL_NVIDIA" == true ]] || return 0
 
+    # On the first boot after a kernel update akmods is still building the
+    # nvidia kmod when multi-user.target starts, so order after it and load
+    # the module explicitly instead of assuming udev already did.
     echo ""
     echo "Setting up GPU power limit service (${GPU_POWER_LIMIT}W)..."
     cat <<EOF | sudo tee /etc/systemd/system/gpu-power-limit.service > /dev/null
 [Unit]
 Description=GPU power limiter
-After=nvidia-persistenced.service
+After=akmods.service nvidia-persistenced.service
 
 [Service]
-User=root
 Type=oneshot
-Restart=never
 RemainAfterExit=yes
-ExecStart=/usr/bin/bash -c "nvidia-smi -pl ${GPU_POWER_LIMIT}"
+ExecStartPre=/usr/sbin/modprobe nvidia
+ExecStart=/usr/bin/nvidia-smi -pl ${GPU_POWER_LIMIT}
 
 [Install]
 WantedBy=multi-user.target
