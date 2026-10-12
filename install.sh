@@ -127,6 +127,11 @@ gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Primary>Tab']"
 echo "  Disabling Super key opening the overview..."
 gsettings set org.gnome.mutter overlay-key ''
 
+echo "  Freeing up Super+Space (used for switching keyboard layouts)..."
+gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['XF86Keyboard']"
+gsettings set org.gnome.desktop.wm.keybindings switch-input-source-backward "['<Shift>XF86Keyboard']"
+gsettings set org.freedesktop.ibus.general.hotkey triggers "[]"
+
 echo "  Setting pinned apps..."
 gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.gnome.Ptyxis.desktop', 'com.bitwarden.desktop.desktop', 'steam.desktop', 'dev.zed.Zed.desktop', 'com.adamcake.Bolt.desktop', 'zen_browser.desktop']"
 
