@@ -124,6 +124,13 @@ gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
 echo "  Setting window switcher shortcut to Ctrl+Tab..."
 gsettings set org.gnome.desktop.wm.keybindings switch-windows "['<Primary>Tab']"
 
+# macOS-style screenshot shortcuts. xremap swaps ⌘ and Ctrl, so ⌘+Shift+N
+# reaches GNOME as Ctrl+Shift+N. The GNOME defaults are kept alongside.
+echo "  Setting macOS screenshot shortcuts (⌘+Shift+3/4/5)..."
+gsettings set org.gnome.shell.keybindings screenshot "['<Shift>Print', '<Primary><Shift>3']"
+gsettings set org.gnome.shell.keybindings show-screenshot-ui "['Print', '<Primary><Shift>4']"
+gsettings set org.gnome.shell.keybindings show-screen-recording-ui "['<Ctrl><Shift><Alt>R', '<Primary><Shift>5']"
+
 echo "  Disabling Super key opening the overview..."
 gsettings set org.gnome.mutter overlay-key ''
 

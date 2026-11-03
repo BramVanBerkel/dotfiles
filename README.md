@@ -92,6 +92,7 @@ directly when the overview isn't showing.
 - [ ] Clock shows seconds
 - [ ] Dark mode enabled
 - [ ] Window switcher shortcut set to Ctrl+Tab
+- [ ] macOS screenshot shortcuts (⌘ = Ctrl): ⌘+Shift+3 full screen, ⌘+Shift+4 screenshot tool, ⌘+Shift+5 screen recording; GNOME defaults kept
 - [ ] Taskbar pinned apps set
 - [ ] Locale/formats set to Dutch (`nl_NL.UTF-8`)
 - [ ] Wallpaper set
