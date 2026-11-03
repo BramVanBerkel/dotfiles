@@ -434,6 +434,15 @@ install_searchlightng() {
     fi
 }
 
+# --- Shutdown timer ---
+
+# ~/.local/bin is on the PATH via the .zshrc export that setup_zsh uncomments.
+setup_shutdown_timer() {
+    echo ""
+    echo "Installing shutdown-timer command..."
+    link_config "$DOTFILES_DIR/bin/shutdown-timer" "$HOME/.local/bin/shutdown-timer"
+}
+
 # --- Wallpaper ---
 
 # Copies the wallpaper into place; the caller points GNOME at it.

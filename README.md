@@ -45,6 +45,7 @@ It sources `lib.sh`, which holds the implementation of each step.
 - [ ] Zen Browser installed and integrated via Gear Lever
 - [ ] Zen set as default browser
 - [ ] Zed editor installed (`~/.local/zed.app`)
+- [ ] `shutdown-timer` linked into `~/.local/bin` (`shutdown-timer [minutes|status|cancel]`, default 40 min)
 
 ### Zsh
 - [ ] Oh My Zsh installed (`~/.oh-my-zsh`)

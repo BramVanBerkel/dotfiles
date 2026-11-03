@@ -57,6 +57,7 @@ install_zen
 set_default_browser
 install_zed
 setup_zsh
+setup_shutdown_timer
 
 # --- xremap ---
 setup_xremap

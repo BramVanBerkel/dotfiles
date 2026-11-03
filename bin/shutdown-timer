@@ -1,0 +1,36 @@
+#!/bin/bash
+# Shut the PC down after a number of minutes.
+#
+#   shutdown-timer          shut down in 40 minutes
+#   shutdown-timer 25       shut down in 25 minutes
+#   shutdown-timer status   show when the scheduled shutdown happens
+#   shutdown-timer cancel   cancel the scheduled shutdown
+#
+# Running it again replaces the earlier timer. logind lets the active local
+# user schedule and cancel shutdowns, so no sudo is needed.
+set -euo pipefail
+
+DEFAULT_MINUTES="${SHUTDOWN_TIMER_MINUTES:-40}"
+
+arg="${1:-$DEFAULT_MINUTES}"
+
+case "$arg" in
+    cancel|-c)
+        shutdown -c
+        echo "Shutdown cancelled"
+        ;;
+    status|-s)
+        shutdown --show
+        ;;
+    -h|--help)
+        sed -n '2,7s/^# \{0,1\}//p' "$0"
+        ;;
+    *)
+        if ! [[ "$arg" =~ ^[0-9]+$ ]] || [ "$arg" -eq 0 ]; then
+            echo "Usage: shutdown-timer [minutes|status|cancel]" >&2
+            exit 1
+        fi
+        shutdown -h "+$arg" 2>/dev/null
+        echo "Shutting down in $arg min, at $(date -d "+$arg min" +%H:%M). Cancel with: shutdown-timer cancel"
+        ;;
+esac
