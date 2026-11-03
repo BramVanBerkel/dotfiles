@@ -140,6 +140,9 @@ gsettings set org.gnome.desktop.wm.keybindings switch-input-source "['XF86Keyboa
 gsettings set org.gnome.desktop.wm.keybindings switch-input-source-backward "['<Shift>XF86Keyboard']"
 gsettings set org.freedesktop.ibus.general.hotkey triggers "[]"
 
+echo "  Disabling Super+scroll/drag window actions..."
+gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier ''
+
 echo "  Setting pinned apps..."
 gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'org.gnome.Ptyxis.desktop', 'com.bitwarden.desktop.desktop', 'steam.desktop', 'dev.zed.Zed.desktop', 'com.adamcake.Bolt.desktop', 'zen_browser.desktop']"
 
