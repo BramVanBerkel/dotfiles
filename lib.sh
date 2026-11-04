@@ -403,7 +403,6 @@ setup_xremap() {
 # installs that, so the --extra-source list it needs stays in their hands rather
 # than being copied here to rot.
 SEARCHLIGHTNG_UUID="search-light-ng@salix.host"
-SEARCHLIGHT_SCREENSHOT_FIX_UUID="searchlight-screenshot-fix@dotfiles"
 
 install_searchlightng() {
     echo ""
@@ -422,15 +421,6 @@ install_searchlightng() {
     # enabling can legitimately fail here; don't take the script down with it.
     if ! gnome-extensions enable "$SEARCHLIGHTNG_UUID" 2>/dev/null; then
         echo "  Could not enable yet - run 'gnome-extensions enable $SEARCHLIGHTNG_UUID' after the next login"
-    fi
-
-    # Our own small extension: "Take a Screenshot" from SearchLightNG otherwise
-    # only opens after the app grid has been opened and closed once.
-    echo "  Linking SearchLight screenshot fix..."
-    link_config "$DOTFILES_DIR/gnome-extensions/$SEARCHLIGHT_SCREENSHOT_FIX_UUID" \
-        "$HOME/.local/share/gnome-shell/extensions/$SEARCHLIGHT_SCREENSHOT_FIX_UUID"
-    if ! gnome-extensions enable "$SEARCHLIGHT_SCREENSHOT_FIX_UUID" 2>/dev/null; then
-        echo "  Could not enable yet - run 'gnome-extensions enable $SEARCHLIGHT_SCREENSHOT_FIX_UUID' after the next login"
     fi
 }
 

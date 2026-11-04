@@ -1,8 +1,0 @@
-{
-  "name": "SearchLight Screenshot Fix",
-  "description": "Makes \"Take a Screenshot\" open when launched from SearchLightNG.",
-  "uuid": "searchlight-screenshot-fix@dotfiles",
-  "shell-version": [
-    "50"
-  ]
-}

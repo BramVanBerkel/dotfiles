@@ -75,17 +75,10 @@ so the script doesn't write one.
 - [ ] Dash to Panel config restored
 - [ ] SearchLightNG installed and enabled (`search-light-ng@salix.host`)
 - [ ] SearchLightNG config restored (launcher on Ctrl+Space, i.e. ⌘+Space)
-- [ ] SearchLight screenshot fix linked and enabled (`searchlight-screenshot-fix@dotfiles`)
 
 SearchLightNG replaces the unmaintained Search Light, which crashed the GNOME 50
 session. It isn't on extensions.gnome.org, so it comes from upstream's installer
 at <https://git.salix.host/salix/searchlightng> rather than through `gext`.
-
-GNOME's "Take a Screenshot" search result waits for the overview to close
-before it opens, and SearchLightNG never opens the overview, so the screenshot
-tool only appeared after opening and closing the app grid. The small
-`searchlight-screenshot-fix@dotfiles` extension in `gnome-extensions/` opens it
-directly when the overview isn't showing.
 
 ### Settings
 - [ ] Minimize and maximize buttons enabled
