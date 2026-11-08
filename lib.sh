@@ -395,6 +395,39 @@ setup_xremap() {
     echo "  xremap service enabled and started"
 }
 
+# --- GNOME extensions ---
+
+# Runs before the system update, so it installs pipx itself rather than
+# waiting for the main package list.
+install_gnome_extensions() {
+    echo ""
+    echo "Installing GNOME extensions..."
+
+    if ! command -v gext &>/dev/null; then
+        install_dnf_packages pipx
+        echo "  Installing gnome-extensions-cli..."
+        pipx install gnome-extensions-cli
+    fi
+
+    local ext
+    for ext in "$@"; do
+        if ! grep -q "$ext" <<<"$(gnome-extensions list)"; then
+            echo "  Installing $ext..."
+            gext install "$ext"
+        else
+            echo "  $ext already installed"
+        fi
+        gext enable "$ext"
+    done
+
+    # gext-installed extensions don't preserve the executable bit on bundled
+    # binaries, so ddterm's helper fails with "Permission denied" until we fix it up.
+    local ddterm_bin="$HOME/.local/share/gnome-shell/extensions/ddterm@amezin.github.com/bin/com.github.amezin.ddterm"
+    if [ -f "$ddterm_bin" ]; then
+        chmod +x "$ddterm_bin"
+    fi
+}
+
 # --- SearchLightNG ---
 
 # Not on extensions.gnome.org, so gext cannot reach it and it stays out of the

@@ -4,6 +4,10 @@ Fedora Workstation (GNOME) setup script: `./install.sh`
 
 It sources `lib.sh`, which holds the implementation of each step.
 
+Everything that needs you comes first: the NVIDIA question, then the GNOME extension
+install popups. After "the rest runs unattended" it only asks again at the very end,
+about rebooting.
+
 ## Checklist
 
 ### System
