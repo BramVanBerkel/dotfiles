@@ -29,10 +29,13 @@ keymap:
       Ctrl-Right: End
       Shift-Ctrl-Left: Shift-Home
       Shift-Ctrl-Right: Shift-End
-  - name: In the drop-down terminal, ⌥← and ⌥→ act as Home and End (with Shift for selection)
+  - name: In the drop-down terminal, ⌘← and ⌘→ switch tabs, ⌥← and ⌥→ act as Home and End (with Shift for selection)
     application:
       only: [com.github.amezin.ddterm]
     remap:
+      # ddterm's default previous/next tab shortcuts.
+      Ctrl-Left: Ctrl-PageUp
+      Ctrl-Right: Ctrl-PageDown
       Alt-Left: Home
       Alt-Right: End
       Shift-Alt-Left: Shift-Home
