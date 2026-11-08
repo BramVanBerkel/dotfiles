@@ -2,6 +2,16 @@
 
 Fedora Workstation (GNOME) setup script: `./install.sh`
 
+To install without cloning first:
+
+```sh
+bash <(curl -fsSL https://raw.githubusercontent.com/BramVanBerkel/dotfiles/main/bootstrap.sh)
+```
+
+This clones the repo to `~/Documents/dotfiles` (set `DOTFILES_DIR` to pick another
+place) and runs `install.sh` from there. The clone has to stay: configs are symlinked
+into it. If the clone already exists, it is updated instead.
+
 It sources `lib.sh`, which holds the implementation of each step.
 
 Everything that needs you comes first: the NVIDIA question, then the GNOME extension
