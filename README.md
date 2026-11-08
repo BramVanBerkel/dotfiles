@@ -47,6 +47,7 @@ command fails, the script stops and prints which step, line and command failed.
 - [ ] Gear Lever (`it.mijorus.gearlever`)
 - [ ] Resources (`net.nokyan.Resources`)
 - [ ] Extension Manager (`com.mattjakeman.ExtensionManager`)
+- [ ] GPU Screen Recorder (`com.dec05eba.gpu_screen_recorder`)
 
 ### Apps
 - [ ] Zen Browser installed and integrated via Gear Lever

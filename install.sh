@@ -82,7 +82,8 @@ install_flatpaks \
     com.spotify.Client \
     it.mijorus.gearlever \
     net.nokyan.Resources \
-    com.mattjakeman.ExtensionManager
+    com.mattjakeman.ExtensionManager \
+    com.dec05eba.gpu_screen_recorder
 
 # --- Apps ---
 install_zen
