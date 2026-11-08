@@ -91,6 +91,7 @@ so the script doesn't write one.
 - [ ] xremap extension installed and enabled
 - [ ] Background logo extension disabled
 - [ ] Dash to Panel config restored
+- [ ] ddterm config restored (⌘\` toggles it, ⌘T new tab, ⌘←/⌘→ switch tabs)
 - [ ] SearchLightNG installed and enabled (`search-light-ng@salix.host`)
 - [ ] SearchLightNG config restored (launcher on Ctrl+Space, i.e. ⌘+Space)
 
