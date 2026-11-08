@@ -8,6 +8,9 @@ Everything that needs you comes first: the NVIDIA question, then the GNOME exten
 install popups. After "the rest runs unattended" it only asks again at the very end,
 about rebooting.
 
+All output is also saved to `~/.local/state/dotfiles/install-<date>-<time>.log`. If a
+command fails, the script stops and prints which step, line and command failed.
+
 ## Checklist
 
 ### System

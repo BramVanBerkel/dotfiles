@@ -1,15 +1,21 @@
 #!/bin/bash
-set -euo pipefail
+# -E lets the ERR trap (see start_log) catch failures inside functions too.
+set -Eeuo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=lib.sh
 source "$SCRIPT_DIR/lib.sh"
 
+trap on_exit EXIT
+# Before the log starts, so sudo's password prompt isn't mixed in with output
+# that is still on its way through the log pipe.
+start_sudo_keepalive
+start_log
+
 echo "Installing dotfiles from $DOTFILES_DIR (GNOME)"
 
 # --- Questions ---
 # Everything that needs you happens before the long unattended part below.
-start_sudo_keepalive
 prompt_nvidia
 
 # --- GNOME extensions ---

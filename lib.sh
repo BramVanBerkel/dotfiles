@@ -35,11 +35,66 @@ start_sudo_keepalive() {
         done
     ) >/dev/null 2>&1 &
     SUDO_KEEPALIVE_PID=$!
-    trap stop_sudo_keepalive EXIT
 }
 
 stop_sudo_keepalive() {
+    [ -n "${SUDO_KEEPALIVE_PID:-}" ] || return 0
     kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true
+}
+
+# --- Log and failure summary ---
+
+LOG_FILE="$HOME/.local/state/dotfiles/install-$(date +%Y%m%d-%H%M%S).log"
+
+# Copies all output into LOG_FILE, and prints a summary of where the run
+# stopped if a command fails. Output goes through a pipe, so dnf and flatpak
+# print plain lines instead of progress bars.
+start_log() {
+    mkdir -p "$(dirname "$LOG_FILE")"
+    exec > >(tee -a "$LOG_FILE") 2>&1
+    LOG_PID=$!
+    echo "Logging to $LOG_FILE"
+
+    # Needs `set -E` in install.sh, or failures inside functions skip the trap.
+    trap 'report_failure "$?" "$BASH_COMMAND" "${BASH_SOURCE[0]}" "$LINENO" "${FUNCNAME[0]:-}"' ERR
+}
+
+report_failure() {
+    local status="$1" command="$2" file="$3" line="$4" func="$5"
+
+    # A failing $(...) fires the trap inside its subshell and again in the
+    # script itself; report only the second one, so it shows up once.
+    [ "$BASH_SUBSHELL" -eq 0 ] || return 0
+
+    local where
+    where="$(basename "$file") line $line"
+    [ -n "$func" ] && where="$func ($where)"
+
+    printf '\n\033[1;31mInstall stopped\033[0m\n'
+    echo "  Step:      $where"
+    echo "  Command:   $command"
+    echo "  Exit code: $status"
+    echo "  Log:       $LOG_FILE"
+    echo ""
+    echo "Fix the cause and run ./install.sh again - it's safe to re-run."
+}
+
+# Closes the pipe to tee and gives it a moment to write its last lines, so
+# they don't land after your shell prompt. Gives up after two seconds in case
+# something started by the script still holds the pipe open.
+finish_log() {
+    [ -n "${LOG_PID:-}" ] || return 0
+    exec >&- 2>&-
+    local i
+    for i in {1..20}; do
+        kill -0 "$LOG_PID" 2>/dev/null || return 0
+        sleep 0.1
+    done
+}
+
+on_exit() {
+    stop_sudo_keepalive
+    finish_log
 }
 
 # --- Hostname ---
@@ -507,7 +562,7 @@ cleanup() {
 
 prompt_reboot() {
     echo ""
-    echo "Done!"
+    echo "Done! Log: $LOG_FILE"
 
     local reboot_choice
     read -rp "Reboot now? [y/N] " reboot_choice
