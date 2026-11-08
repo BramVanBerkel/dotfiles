@@ -89,9 +89,11 @@ so the script doesn't write one.
 - [ ] AppIndicator Support installed and enabled
 - [ ] ddterm installed and enabled
 - [ ] xremap extension installed and enabled
+- [ ] Bluetooth Battery Meter installed and enabled
 - [ ] Background logo extension disabled
 - [ ] Dash to Panel config restored
 - [ ] ddterm config restored (⌘\` toggles it, ⌘T new tab, ⌘←/⌘→ switch tabs)
+- [ ] Bluetooth Battery Meter config restored (Logitech mouse shows its battery % in the panel)
 - [ ] SearchLightNG installed and enabled (`search-light-ng@salix.host`)
 - [ ] SearchLightNG config restored (launcher on Ctrl+Space, i.e. ⌘+Space)
 

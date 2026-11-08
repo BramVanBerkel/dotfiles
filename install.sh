@@ -26,6 +26,7 @@ GNOME_EXTENSIONS=(
     "appindicatorsupport@rgcjonas.gmail.com"
     "ddterm@amezin.github.com"
     "xremap@k0kubun.com"
+    "Bluetooth-Battery-Meter@maniacx.github.com"
 )
 install_gnome_extensions "${GNOME_EXTENSIONS[@]}"
 
@@ -36,6 +37,9 @@ echo "  Restoring extension configs..."
 dconf load /org/gnome/shell/extensions/dash-to-panel/ < "$DOTFILES_DIR/gnome-extensions/dash-to-panel.conf"
 # ddterm keeps its settings outside /org/gnome/shell/extensions/.
 dconf load /com/github/amezin/ddterm/ < "$DOTFILES_DIR/gnome-extensions/ddterm.conf"
+# Battery levels in the panel: a clickable button with a menu, also showing
+# Logitech receiver devices (off by default), with the percentage as text.
+dconf load /org/gnome/shell/extensions/Bluetooth-Battery-Meter/ < "$DOTFILES_DIR/gnome-extensions/bluetooth-battery-meter.conf"
 
 install_searchlightng
 
