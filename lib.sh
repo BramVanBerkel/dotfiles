@@ -480,10 +480,16 @@ install_gnome_extensions() {
     echo ""
     echo "Installing GNOME extensions..."
 
+    # A Fedora upgrade replaces the system Python, which leaves pipx's copy of
+    # gext pointing at an interpreter that no longer exists: the command is
+    # still there but can't run. Reinstalling rebuilds it on the current Python.
     if ! command -v gext &>/dev/null; then
         install_dnf_packages pipx
         echo "  Installing gnome-extensions-cli..."
         pipx install gnome-extensions-cli
+    elif ! gext --version &>/dev/null; then
+        echo "  Reinstalling gnome-extensions-cli (its Python was removed by an upgrade)..."
+        pipx reinstall gnome-extensions-cli
     fi
 
     local ext
