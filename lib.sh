@@ -21,6 +21,27 @@ link_config() {
     echo "  Linked $dest -> $src"
 }
 
+# --- sudo ---
+
+# Asks for the sudo password once, up front, and keeps it fresh in the
+# background. Otherwise a long stretch without sudo (Flatpaks, AppImages) lets
+# it expire, and the next sudo stops the run at a password prompt.
+start_sudo_keepalive() {
+    sudo -v
+    (
+        while kill -0 "$$" 2>/dev/null; do
+            sudo -n -v || exit 0
+            sleep 60
+        done
+    ) >/dev/null 2>&1 &
+    SUDO_KEEPALIVE_PID=$!
+    trap stop_sudo_keepalive EXIT
+}
+
+stop_sudo_keepalive() {
+    kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true
+}
+
 # --- Hostname ---
 
 setup_hostname() {
@@ -352,9 +373,10 @@ setup_zsh() {
         echo 'alias pbpaste="wl-paste"' >> "$HOME/.zshrc"
     fi
 
+    # Through sudo, so chsh doesn't ask for your password itself mid-run.
     if [ "$SHELL" != "$(which zsh)" ]; then
         echo "  Setting Zsh as default shell..."
-        chsh -s "$(which zsh)"
+        sudo chsh -s "$(which zsh)" "$USER"
     fi
 }
 

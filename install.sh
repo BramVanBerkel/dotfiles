@@ -9,6 +9,7 @@ echo "Installing dotfiles from $DOTFILES_DIR (GNOME)"
 
 # --- Questions ---
 # Everything that needs you happens before the long unattended part below.
+start_sudo_keepalive
 prompt_nvidia
 
 # --- GNOME extensions ---
